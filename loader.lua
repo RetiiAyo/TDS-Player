@@ -11,6 +11,10 @@ warn("[TDS-PLAYER]: Initializing..")
 local notice = "Go to https://github.com/RetiiAyo/ to learn more"
 local multiplayer = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/multiplayer.lua"))()
 local webhooks = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/webhooks.lua"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/RBXScripts-Drive/main/girgmnijnrw09LIB.lua"))()
+local functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/functions.lua"))()
+
+functions:Initialize()
 
 if multiplayer and typeof(multiplayer) == "table" then
 	warn("[TDS-PLAYER]: Multiplayer module initialized!")
@@ -20,12 +24,28 @@ if webhooks and typeof(webhooks) == "table" then
 	warn("[TDS-PLAYER]: Webhooks module initialized!")
 end
 
+if library and typeof(library) == "table" then
+	warn("[TDS-PLAYER]: Library module initialized!")
+end
+
+if functions and typeof(functions) == "table" then
+	warn("[TDS-PLAYER]: Functions module initialized!")
+end
+
+webhooks:SendWebhook({
+	["username"] = "TDS-Player",
+	["content"] = tostring(game.Players.LocalPlayer.Name).." has loaded TDS-Player"
+})
+
 if getgenv().Settings.Multiplayer.Enabled == true then
 	
-	local PlrsOnline = multiplayer:CheckForPlayers(getgenv().Settings.Multiplayer.Players)
+	local PlrData = functions:GetOnlinePlayers()
 	
-	warn("[TDS-PLAYER]: Game Players: "..tostring(#game:GetService("Players"):GetPlayers()))
-	warn("[TDS-PLAYER]: Multiplayer Players: "..tostring(#PlrsOnline))
+	print(PlrData["Players"].." online; "..PlrData["MultiplayerPlayers"].." multiplayer players online")
+	webhooks:SendWebhook({
+		["username"] = "TDS-Player",
+		["content"] = "Online: "..PlrData["Players"].."; Multiplayer Players: "..PlrData["MultiplayerPlayers"]
+	})
 	
 else
 	
@@ -33,9 +53,10 @@ else
 		local v = 0
 		repeat
 			warn("[TDS-PLAYER]: Script is not finished!")
+			print("[TDS-PLAYER]: Script is not finished!")
 			v += 1
 			wait(0.05)
-		until v >= 50
+		until v >= 25
 	end)
 	
 end
