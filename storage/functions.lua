@@ -14,4 +14,12 @@ function module:Initialize()
   end
 end
 
+function module:CheckWebhook()
+  if getgenv().Settings.Logs ~= "WEBHOOK HERE (NOT NEEDED)" then
+    return true
+  else
+    return false
+  end
+end
+
 return module
