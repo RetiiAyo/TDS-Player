@@ -96,6 +96,7 @@ if getgenv().Settings.Multiplayer.Enabled == true then
                     task.wait()
             end
         end
+    end)
 	
 else
 	
