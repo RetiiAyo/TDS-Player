@@ -9,6 +9,7 @@ function module:SendWebhook(Data)
     Data = game:GetService("HttpService"):JSONEncode(Data)
     
     Request(FullData)
+    print(FullData)
   end
 end
 
