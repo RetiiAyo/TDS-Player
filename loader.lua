@@ -32,7 +32,7 @@ if functions and typeof(functions) == "table" then
 	warn("[TDS-PLAYER]: Functions module initialized!")
 end
 
-if not getgenv().Settings.Logs == "WEBHOOK HERE (NOT NEEDED)" then
+if getgenv().Settings.Logs ~= "WEBHOOK HERE (NOT NEEDED)" then
 	webhooks:SendWebhook(getgenv().Settings.Logs, {
 		["username"] = "TDS-Player",
 		["content"] = tostring(game.Players.LocalPlayer.Name).." has loaded TDS-Player"
@@ -44,7 +44,7 @@ if getgenv().Settings.Multiplayer.Enabled == true then
 	local PlrData = functions:GetOnlinePlayers()
 	
 	print(PlrData["Players"].." online; "..PlrData["MultiplayerPlayers"].." multiplayer players online")
-	if not getgenv().Settings.Logs == "WEBHOOK HERE (NOT NEEDED)" then
+	if getgenv().Settings.Logs ~= "WEBHOOK HERE (NOT NEEDED)" then
 		webhooks:SendWebhook(getgenv().Settings.Logs, {
 			["username"] = "TDS-Player",
 			["content"] = "Online: "..PlrData["Players"].."; Multiplayer Players: "..PlrData["MultiplayerPlayers"]
