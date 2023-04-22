@@ -7,11 +7,10 @@ function module:SendWebhook(Data)
     local headers = {["content-type"] = "application/json"}
     local Request = http_request or request or HttpPost or syn.request
     local FullData = {Url = url, Body = Data, Method = "POST", Headers = headers}
-    Data = game:GetService("HttpService"):JSONEncode(Data)
     
     print("Web2")
     
-    syn.request(FullData)
+    syn.request({ Url = url, Body = game:GetService("HttpService"):JSONEncode(Data), Method = "POST", Headers = {["content-type"] = "application/json"} })
     print(FullData)
   end
 end
