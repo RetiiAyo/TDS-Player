@@ -3,6 +3,7 @@ open source Roblox Tower Defense Simulator script (BETA)
 
 ```lua
 getgenv().Settings = {
+    Webhook = "WEBHOOK HERE (NOT NEEDED)",
     Multiplayer = {
         Enabled = true,
         Players = {}
