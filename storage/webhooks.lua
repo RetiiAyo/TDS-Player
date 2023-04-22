@@ -3,10 +3,10 @@ local module = {}
 function module:SendWebhook(Data)
   if getgenv().Settings.Logs ~= "WEBHOOK HERE (NOT NEEDED)" then
     print("Web1")
-    local Url = getgenv().Settings.Logs
-    local Headers = {["content-type"] = "application/json"}
+    local url = getgenv().Settings.Logs
+    local headers = {["content-type"] = "application/json"}
     local Request = http_request or request or HttpPost or syn.request
-    local FullData = {Url = Url, Body = Data, Method = "POST", Headers = Headers}
+    local FullData = {Url = url, Body = Data, Method = "POST", Headers = headers}
     Data = game:GetService("HttpService"):JSONEncode(Data)
     
     print("Web2")
