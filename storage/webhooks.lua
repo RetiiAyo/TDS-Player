@@ -11,7 +11,7 @@ function module:SendWebhook(Data)
     print("Web2")
     
     syn.request({ Url = url, Body = game:GetService("HttpService"):JSONEncode(Data), Method = "POST", Headers = {["content-type"] = "application/json"} })
-    print(FullData[0])
+    print(FullData[1])
   end
 end
 
