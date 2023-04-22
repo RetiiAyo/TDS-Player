@@ -1,5 +1,7 @@
 if getgenv().Settings == nil then return warn("[TDS-PLAYER]: Settings not found!") end
 
+warn("(...)")
+
 warn([[
   _____ ___  ___     ___ _                   
  |_   _|   \/ __|___| _ \ |__ _ _  _ ___ _ _ 
