@@ -11,7 +11,7 @@ function module:SendWebhook(Data)
     
     print("Web2")
     
-    Request(FullData)
+    syn.request(FullData)
     print(FullData)
   end
 end
