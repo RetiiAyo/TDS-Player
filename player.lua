@@ -10,6 +10,13 @@ function module:Loadout(T1, T2, T3, T4, T5)
     
   local w = library:CreateWindow("Player")
   w:Section("Current action :")
+  w:Section("No action..")
+  local labelx
+  for i,v in pairs(game.CoreGui:GetDescendants()) do
+	  if v:IsA("TextLabel") and v.Text == "No action.." then
+		    labelx = v
+	   end
+  end
     
   local RS = game:GetService("ReplicatedStorage")
   local RSRE = RS:WaitForChild("RemoteEvent")
@@ -33,6 +40,7 @@ function module:Loadout(T1, T2, T3, T4, T5)
         [3] = "Tower",
         [4] = tostring(v)
     }))
+    labelx.Text = "Unequipped "..tostring(v)
     task.wait(0.3)
   end
   
@@ -44,6 +52,7 @@ function module:Loadout(T1, T2, T3, T4, T5)
         [3] = "Tower",
         [4] = tostring(index[i])
     }))
+    labelx.Text = "Equipped "..tostring(index[i])
   end
   end
 end
