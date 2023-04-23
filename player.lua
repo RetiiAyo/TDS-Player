@@ -75,6 +75,7 @@ function module:Map(Map, Bool, Mode)
 	    c.State.Players:GetPropertyChangedSignal("Value"):Connect(function()
 		if b > 0 then
 		    labelc.Text = "Someone joined.."
+		    L:InvokeServer("Elevators", "Leave")
 		end
 	    end)
 	end)
@@ -87,7 +88,7 @@ function module:Map(Map, Bool, Mode)
       for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
         local a = require(c.Settings).Type
         local b = c.State.Players
-        if a == "Survival" and b.Value <= 0 then
+        if a == Mode and b.Value <= 0 then
           L:InvokeServer("Elevators", "Enter", c)
           wait(1)
           L:InvokeServer("Elevators", "Leave")
