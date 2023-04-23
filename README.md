@@ -5,7 +5,7 @@ open source Roblox Tower Defense Simulator script (BETA)
 getgenv().Settings = {
     Logs = "WEBHOOK HERE (NOT NEEDED)",
     Multiplayer = {
-        Enabled = true,
+        Enabled = false, -- IN WORKS, DON'T ENABLE
         Players = {}
     }
 }
