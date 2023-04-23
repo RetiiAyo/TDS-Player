@@ -52,4 +52,20 @@ function module:CheckIfUpgrade(troop)
     end
 end
 
+function module:CheckIfPlace(troopType)
+    local troopAssets = game:GetService("ReplicatedStorage").Assets.Troops[troopType]
+    local placePrice = require(troopAssets["Stats"]).Price
+    if table.find(getgenv().GoldenPerks, troopType) then
+        placePrice = require(troopAssets["Stats_Golden"]).Price
+    end
+    if game:GetService("ReplicatedStorage").State.Difficulty.Value == "Hardcore" then
+        placePrice = math.floor(placePrice*1.5)
+    end
+    if cashRep:GetAttribute("Cash") >= placePrice then
+        return true
+    else
+        return false
+    end
+end
+
 return module
