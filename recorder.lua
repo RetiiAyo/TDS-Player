@@ -182,7 +182,7 @@ end)
 w:Section("")
 w:Button("Save", function()
 	if not isfile("TDS-Player/Saved/"..getgenv().FileName..".txt") then
-		writeFile("TDS-Player/Saved/"..getgenv().FileName..".txt", "")
+		writefile("TDS-Player/Saved/"..getgenv().FileName..".txt", "")
 		appendfile("TDS-Player/Saved/"..getgenv().FileName..".txt", getgenv().LoaderData)
 	end
 end)
