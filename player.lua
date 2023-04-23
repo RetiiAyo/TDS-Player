@@ -14,11 +14,12 @@ local function getElevators()
 	L:InvokeServer("Elevators", "Enter", c)
 	elev = true
 	labelc.Text = "Joined.."
-	spawn(function()
+	local sp = spawn(function()
 	    c.State.Players:GetPropertyChangedSignal("Value"):Connect(function()
 		if b > 0 then
 		    labelc.Text = "Someone joined.."
 		    L:InvokeServer("Elevators", "Leave")
+		    sp:Disconnect()
 		end
 	    end)
 	end)
