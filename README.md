@@ -19,6 +19,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/m
 # Player
 
 ```lua
--- Recorder generated a script that you can execute. Player will do all the actions you did for you.
+-- Recorder generates a script that you can execute. Player will do all the actions you did for you.
 -- Player includes: Auto-join, Auto-equip, Auto-leave when player joins elevator and Auto-leave
 ```
