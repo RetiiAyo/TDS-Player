@@ -88,9 +88,9 @@ if getgenv().GoldenPerks[1] then
 end
 
 if Gperks ~= "" then
-	getgenv().LoaderData = getgenv().LoaderData + "-- TDS-Player "..RVER.."\n"..Gperks.."local "..getgenv().PlayerVar.." = loadstring(game:HttpGet('https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/player.lua'))() \n"..getgenv().PlayerVar..":Loadout('"..getgenv().Towers[1].."', '"..getgenv().Towers[2].."', '"..getgenv().Towers[3].."', '"..getgenv().Towers[4].."', '"..getgenv().Towers[5].."') \n"..getgenv().PlayerVar..":Map('"..game:GetService("ReplicatedStorage").State.Map.Value.."', true, '"..game:GetService("ReplicatedStorage").State.Mode.Value.."')\n"
+	getgenv().LoaderData = getgenv().LoaderData.."-- TDS-Player "..RVER.."\n"..Gperks.."local "..getgenv().PlayerVar.." = loadstring(game:HttpGet('https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/player.lua'))() \n"..getgenv().PlayerVar..":Loadout('"..getgenv().Towers[1].."', '"..getgenv().Towers[2].."', '"..getgenv().Towers[3].."', '"..getgenv().Towers[4].."', '"..getgenv().Towers[5].."') \n"..getgenv().PlayerVar..":Map('"..game:GetService("ReplicatedStorage").State.Map.Value.."', true, '"..game:GetService("ReplicatedStorage").State.Mode.Value.."')\n"
 else
-	getgenv().LoaderData = getgenv().LoaderData + "-- TDS-Player "..RVER.."\n".."local "..getgenv().PlayerVar.." = loadstring(game:HttpGet('https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/player.lua'))() \n"..getgenv().PlayerVar..":Loadout('"..getgenv().Towers[1].."', '"..getgenv().Towers[2].."', '"..getgenv().Towers[3].."', '"..getgenv().Towers[4].."', '"..getgenv().Towers[5].."') \n"..getgenv().PlayerVar..":Map('"..game:GetService("ReplicatedStorage").State.Map.Value.."', true, '"..game:GetService("ReplicatedStorage").State.Mode.Value.."')\n"
+	getgenv().LoaderData = getgenv().LoaderData.."-- TDS-Player "..RVER.."\n".."local "..getgenv().PlayerVar.." = loadstring(game:HttpGet('https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/player.lua'))() \n"..getgenv().PlayerVar..":Loadout('"..getgenv().Towers[1].."', '"..getgenv().Towers[2].."', '"..getgenv().Towers[3].."', '"..getgenv().Towers[4].."', '"..getgenv().Towers[5].."') \n"..getgenv().PlayerVar..":Map('"..game:GetService("ReplicatedStorage").State.Map.Value.."', true, '"..game:GetService("ReplicatedStorage").State.Mode.Value.."')\n"
 end
 
 local StateRep = nil
