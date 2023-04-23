@@ -11,5 +11,5 @@ getgenv().Settings = {
 }
 getgenv().FileName = "Recording"
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/loader.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/player.lua"))()
 ```
