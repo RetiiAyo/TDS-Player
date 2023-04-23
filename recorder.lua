@@ -22,9 +22,170 @@ local RSRE = RS:WaitForChild("RemoteEvent")
 
 if not RSRF and RSRE then
 	warn("[TDS-PLAYER]: RemoteEvent and RemoteFunction (TDS default) are missing. Please join TDS or report the bug to the Discord server")
+	return
 end
 
 functions:Initialize()
+
+local RVER = "1.4"
+local Gperks = ""
+getgenv().Towers = {}
+getgenv().GoldenPerks = {}
+getgenv().LoaderData = ""
+getgenv().PlayerVar = "TDSPlr"
+
+function getTroopTypeCheck(troop)
+	return troop.Replicator:GetAttribute("Type")
+end
+
+function getTroopType(tr)
+	local check = getTroopTypeCheck(tr)
+	if check then
+		return check
+	else
+		return "Unable to GET"
+	end
+end
+
+local ChangeThen = 0
+game:GetService("ReplicatedStorage").State.Timer.Time:GetPropertyChangedSignal("Value"):Connect(function()
+	ChangeThen = ChangeThen + 1
+	local ChangeNow = ChangeThen
+	getgenv().WaveMillisecond = 0
+	for i=1,9 do
+		if ChangeThen > ChangeNow then
+			break
+		end
+		task.wait(0.09)
+		if ChangeThen > ChangeNow then
+			break
+		end
+		getgenv().WaveMillisecond = getgenv().WaveMillisecond + 1
+	end
+end)
+
+for TowerName, Tower in next, game.ReplicatedStorage.RemoteFunction:InvokeServer("Session", "Search", "Inventory.Troops") do
+	if (Tower.Equipped) then
+		table.insert(getgenv().Towers, TowerName)
+		if (Tower.GoldenPerks) then
+			table.insert(getgenv().GoldenPerks, TowerName)
+		end
+	end
+end
+
+for i = 1, 5 do
+	if getgenv().Towers[i] == nil then
+		getgenv().Towers[i] = "nil"
+	end
+end
+
+if getgenv().GoldenPerks[1] then
+	Gperks = Gperks.."getgenv().GoldenPerks = {"
+	for i, v in pairs(getgenv().GoldenPerks) do
+		Gperks = Gperks..'"'..v..'",'
+	end
+	Gperks = Gperks.."}\n"
+end
+
+if Gperks ~= "" then
+	getgenv().LoaderData = getgenv().LoaderData + "-- TDS-Player "..RVER.."\n"..Gperks.."local "..getgenv().PlayerVar.." = loadstring(game:HttpGet('https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/player.lua'))() \n"..getgenv().PlayerVar..":Loadout('"..getgenv().Towers[1].."', '"..getgenv().Towers[2].."', '"..getgenv().Towers[3].."', '"..getgenv().Towers[4].."', '"..getgenv().Towers[5].."') \n"..getgenv().PlayerVar..":Map('"..game:GetService("ReplicatedStorage").State.Map.Value.."', true, '"..game:GetService("ReplicatedStorage").State.Mode.Value.."')\n"
+else
+	getgenv().LoaderData = getgenv().LoaderData + "-- TDS-Player "..RVER.."\n".."local "..getgenv().PlayerVar.." = loadstring(game:HttpGet('https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/player.lua'))() \n"..getgenv().PlayerVar..":Loadout('"..getgenv().Towers[1].."', '"..getgenv().Towers[2].."', '"..getgenv().Towers[3].."', '"..getgenv().Towers[4].."', '"..getgenv().Towers[5].."') \n"..getgenv().PlayerVar..":Map('"..game:GetService("ReplicatedStorage").State.Map.Value.."', true, '"..game:GetService("ReplicatedStorage").State.Mode.Value.."')\n"
+end
+
+local StateRep = nil
+
+if functions:IsGame() then
+	function getStateRep()
+		for i, v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do
+			if v:GetAttribute("TimeScale") then
+				return v
+			end
+		end
+	end
+	
+	repeat
+		StateRep = getStateRep()
+		task.wait()
+	until StateRep
+end
+
+local CashRep = nil
+
+repeat
+	for i,v in pairs(game:GetService("ReplicatedStorage").StateReplicators:GetChildren()) do
+		if v:GetAttribute("UserId") and v:GetAttribute("UserId") == game.Players.LocalPlayer.UserId then
+			CashRep = v
+		end
+	end
+	task.wait()
+until CashRep
+
+local function Convert(Seconds)
+	return math.floor(Seconds / 60), Seconds % 60;
+end;
+
+local w = library:CreateWindow("Recorder")
+w:Section("Last Record :")
+w:Section("Recording")
+local labelx
+for i,v in pairs(game.CoreGui:GetDescendants()) do
+	if v:IsA("TextLabel") and v.Text == "Recording" then
+		labelx = v
+	end
+end
+w:Section("")
+w:Section("TimePassed")
+spawn(function()
+	local function TimeConverter(v)
+		if v <= 9 then
+			local conv = "0"..v
+			return conv
+		else
+			return v
+		end
+	end
+	local labelx = nil
+	repeat
+		for i,v in pairs(game.CoreGui:GetDescendants()) do
+			if v:IsA("TextLabel") and v.Text == "TimePassed" then
+				labelx = v
+			end
+		end
+		task.wait()
+	until labelx
+	local startTime = os.time()
+	while task.wait(0.1) do
+		local t = os.time() - startTime
+		local seconds = t % 60
+		local minutes = math.floor(t / 60) % 60
+		labelx.Text = "Time Passed : "..TimeConverter(minutes)..":"..TimeConverter(seconds)
+		getgenv().TimePassed = "Time Passed : "..TimeConverter(minutes)..":"..TimeConverter(seconds)
+	end
+end)
+w:Section("")
+w:Button("Sell All Farms", function()
+	for i,v in pairs(game.Workspace.Towers:GetChildren()) do
+		if getTroopType(v) == "Farm" and v.Owner.Value == game.Players.LocalPlayer.UserId then
+			RSRF:InvokeServer("Troops","Sell",{["Troop"] = v,["Recorder"] = true})
+			task.wait()
+		end
+	end
+	local ReplicatedStorage = game:GetService("ReplicatedStorage");
+	local State = ReplicatedStorage.State;
+	local Wave = tonumber(StateRep:GetAttribute("Wave"));
+	local Timer = State.Timer;
+	local CurTime = Timer.Time.Value;
+	local TM, TS = Convert(CurTime);
+	getgenv().LoaderData = getgenv().LoaderData + getgenv().PlayerVar..":SellAllFarms( "..Wave..", "..TM..", "..TS.."."..getgenv().WaveMillisecond..")\n";
+end)
+w:Section("")
+w:Button("Save", function()
+	if not isfile("TDS-Player/Saved/"..getgenv().FileName..".txt") then
+		writeFile("TDS-Player/Saved/"..getgenv().FileName..".txt", "")
+		appendfile("TDS-Player/Saved/"..getgenv().FileName..".txt", getgenv().LoaderData)
+	end
+end)
 
 if multiplayer and typeof(multiplayer) == "table" then
 	warn("[TDS-PLAYER]: Multiplayer module initialized!")
@@ -47,73 +208,4 @@ if functions:CheckWebhook() == true then
 		["username"] = "TDS-Player",
 		["content"] = tostring(game.Players.LocalPlayer.Name).." has loaded TDS-Player"
 	})
-end
-
-if getgenv().Settings.Multiplayer.Enabled == true then
-	
-	local PlrData = functions:GetOnlinePlayers()
-	
-	print(PlrData["Players"].." online; "..PlrData["MultiplayerPlayers"].." multiplayer players online")
-	if functions:CheckWebhook() == true then
-		webhooks:SendWebhook(getgenv().Settings.Logs, {
-			["username"] = "TDS-Player",
-			["content"] = "Online: "..PlrData["Players"].."; Multiplayer Players: "..PlrData["MultiplayerPlayers"]
-		})
-	end
-	
-	TDSWindow = library:CreateWindow("TDS-Player")
-	TDSWindow:Section("Record: ")
-	TDSWindow:Section("")
-        TDSWindow:Section("TimePassed")
-	
-	spawn(function()
-        function TimeConverter(v)
-            if v <= 9 then
-                local conv = "0"..v
-                return conv
-            else
-                return v
-            end
-        end
-        local labelx = nil
-        repeat
-        for i,v in pairs(game.CoreGui:GetDescendants()) do
-        if v:IsA("TextLabel") and v.Text == "TimePassed" then
-            labelx = v
-        end
-        end
-        task.wait()
-        until labelx
-        local startTime = os.time()
-        while task.wait(0.1) do
-        local t = os.time() - startTime
-        local seconds = t % 60
-        local minutes = math.floor(t / 60) % 60
-        labelx.Text = "Time Passed : "..TimeConverter(minutes)..":"..TimeConverter(seconds)
-        getgenv().TimePassed = "Time Passed : "..TimeConverter(minutes)..":"..TimeConverter(seconds)
-        end
-        end)
-	
-	TDSWindow:Section("")
-	TDSWindow:Button("Sell All Farms", function()
-		for i,v in pairs(game.Workspace.Towers:GetChildren()) do
-                if getTroopType(v) == "Farm" and v.Owner.Value == game.Players.LocalPlayer.UserId then
-		    RSRF:InvokeServer("Troops","Sell",{["Troop"] = v,["Recorder"] = true})
-                    task.wait()
-            end
-        end
-    end)
-	
-else
-	
-	spawn(function()
-		local v = 0
-		repeat
-			warn("[TDS-PLAYER]: Script is not finished!")
-			print("[TDS-PLAYER]: Script is not finished!")
-			v += 1
-			wait(0.05)
-		until v >= 25
-	end)
-	
 end
