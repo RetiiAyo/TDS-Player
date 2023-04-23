@@ -1,7 +1,7 @@
 local module = {}
 local functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/functions.lua"))()
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/RBXScripts-Drive/main/girgmnijnrw09LIB.lua"))()
-local labelc
+local labelc = nil
 
 function module:Loadout(T1, T2, T3, T4, T5)
   module:Connect()
