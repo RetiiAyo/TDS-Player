@@ -1,5 +1,5 @@
 local module = {}
-local functions
+local functions = nil
 local success, err = pcall(function()
     functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/functions.lua"))()
 end)
