@@ -20,6 +20,10 @@ local RS = game:WaitForChild('ReplicatedStorage')
 local RSRF = RS:WaitForChild("RemoteFunction")
 local RSRE = RS:WaitForChild("RemoteEvent")
 
+if not RSRF and RSRE then
+	warn("[TDS-PLAYER]: RemoteEvent and RemoteFunction (TDS default) are missing. Please join TDS or report the bug to the Discord server")
+end
+
 functions:Initialize()
 
 if multiplayer and typeof(multiplayer) == "table" then
