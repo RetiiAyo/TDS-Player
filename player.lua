@@ -1,6 +1,7 @@
 local module = {}
 local functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/functions.lua"))()
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/RBXScripts-Drive/main/girgmnijnrw09LIB.lua"))()
+local labelc
 
 function module:Loadout(T1, T2, T3, T4, T5)
   module:Connect()
@@ -15,6 +16,7 @@ function module:Loadout(T1, T2, T3, T4, T5)
   for i,v in pairs(game.CoreGui:GetDescendants()) do
 	  if v:IsA("TextLabel") and v.Text == "No action.." then
 		    labelx = v
+		    labelc = v
 	   end
   end
     
@@ -58,7 +60,45 @@ function module:Loadout(T1, T2, T3, T4, T5)
 end
 
 function module:Map(Map, Bool, Mode)
-  
+  local elev = false
+  local L = game.ReplicatedStorage.RemoteFunction
+  for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
+    local a = require(c.Settings)
+    local b = c.State.Players.Value
+    local c2 = c.State.Map.Title.Value
+    
+    if c2 == Map and b == 0 and a.Type == Mode then
+	L:InvokeServer("Elevators", "Enter", c)
+	elev = true
+	labelc.Text = "Joined.."
+	spawn(function()
+	    c.State.Players:GetPropertyChangedSignal("Value"):Connect(function()
+		if b > 0 then
+		    labelc.Text = "Someone joined.."
+		end
+	    end)
+	end)
+    end
+  end
+
+  if elev == false then
+      labelc.Text = "Force changing maps.."
+      local L = game.ReplicatedStorage.RemoteFunction
+      for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
+        local a = require(c.Settings).Type
+        local b = c.State.Players
+        if a == "Survival" and b.Value <= 0 then
+          L:InvokeServer("Elevators", "Enter", c)
+          wait(1)
+          L:InvokeServer("Elevators", "Leave")
+      end
+   end
+   wait(0.6)
+   L:InvokeServer("Elevators", "Leave")
+   wait(1)
+   labelc.Text = "Restarting.."
+   module:Map(Map, Bool, Mode)
+  end
 end
 
 function module:Connect()
