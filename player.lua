@@ -61,7 +61,7 @@ end
 
 function module:Map(Map, Bool, Mode)
   local elev = false
-  function getElevators()
+  local function getElevators()
      local L = game.ReplicatedStorage.RemoteFunction
   for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
     local a = require(c.Settings)
