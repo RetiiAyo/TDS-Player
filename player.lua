@@ -1,4 +1,5 @@
 local module = {}
+print("loading")
 local functions = nil
 local success, err = pcall(function()
     functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/functions.lua"))()
@@ -67,6 +68,8 @@ function module:Loadout(T1, T2, T3, T4, T5)
   end
 end
 
+print("1")
+
 function module:Map(Map, Bool, Mode)
   local elev = false
 
@@ -122,4 +125,5 @@ function module:Connect()
   print("Connected!")
 end
 
+print("returning")
 return module
