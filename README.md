@@ -7,7 +7,9 @@ getgenv().Settings = {
     Multiplayer = {
         Enabled = false, -- IN WORKS, DON'T ENABLE
         Players = {}
-    }
+    },
 }
+getgenv().FileName = "Recording"
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/loader.lua"))()
 ```
