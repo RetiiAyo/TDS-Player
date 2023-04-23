@@ -61,7 +61,8 @@ end
 
 function module:Map(Map, Bool, Mode)
   local elev = false
-  local L = game.ReplicatedStorage.RemoteFunction
+  function getElevators()
+     local L = game.ReplicatedStorage.RemoteFunction
   for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
     local a = require(c.Settings)
     local b = c.State.Players.Value
@@ -81,10 +82,12 @@ function module:Map(Map, Bool, Mode)
 	end)
     end
   end
+  end
 
   if elev == false then
-      labelc.Text = "Force changing maps.."
-      local L = game.ReplicatedStorage.RemoteFunction
+      repeat
+	labelc.Text = "Force changing maps.."
+        local L = game.ReplicatedStorage.RemoteFunction
       for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
         local a = require(c.Settings).Type
         local b = c.State.Players
@@ -93,6 +96,10 @@ function module:Map(Map, Bool, Mode)
           wait(1)
           L:InvokeServer("Elevators", "Leave")
       end
+      wait(5)
+      getElevators()
+      wait(1)
+      until elev == true
    end
    wait(0.6)
    L:InvokeServer("Elevators", "Leave")
