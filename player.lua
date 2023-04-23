@@ -1,6 +1,11 @@
 local module = {}
+local functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/functions.lua"))()
 
 function module:Loadout(T1, T2, T3, T4, T5)
+  module:Connect()
+  if functions:IsGame() then
+    print("in-game")
+  else
   local RS = game:GetService("ReplicatedStorage")
   local RSRE = RS:WaitForChild("RemoteEvent")
   local RSRF = RS:WaitForChild("RemoteFunction")
@@ -35,10 +40,15 @@ function module:Loadout(T1, T2, T3, T4, T5)
         [4] = tostring(index[i])
     }))
   end
+  end
 end
 
 function module:Map(Map, Bool, Mode)
   
+end
+
+function module:Connect()
+  print("Connected!")
 end
 
 return module
