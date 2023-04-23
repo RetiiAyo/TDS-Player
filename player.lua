@@ -7,6 +7,10 @@ function module:Loadout(T1, T2, T3, T4, T5)
   if functions:IsGame() then
     print("in-game")
   else
+    
+  local w = library:CreateWindow("Player")
+  w:Section("Current action :")
+    
   local RS = game:GetService("ReplicatedStorage")
   local RSRE = RS:WaitForChild("RemoteEvent")
   local RSRF = RS:WaitForChild("RemoteFunction")
