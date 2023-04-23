@@ -30,4 +30,26 @@ function module:IsGame()
 	end
 end
 
+function module:CheckIfUpgrade(troop)
+    local troopType = troop.Replicator:GetAttribute("Type")
+    local upgradeNum = troop.Replicator:GetAttribute("Upgrade")
+    local discountAmount = troop.Replicator:GetAttribute("DiscountBuff")
+    local troopAssets = game:GetService("ReplicatedStorage").Assets.Troops[troopType]
+    local nextUpgradePrice = require(troopAssets["Stats"]).Upgrades[upgradeNum+1].Cost
+    if table.find(getgenv().GoldenPerks, troopType) then
+        nextUpgradePrice = require(troopAssets["Stats_Golden"]).Upgrades[upgradeNum+1].Cost
+    end
+    if game:GetService("ReplicatedStorage").State.Difficulty.Value == "Hardcore" then
+        nextUpgradePrice = math.floor(nextUpgradePrice*1.5)
+    end
+    if tonumber(discountAmount) > 0 then
+        nextUpgradePrice = math.floor((nextUpgradePrice * (100-tonumber(discountAmount)))/100)
+    end
+    if cashRep:GetAttribute("Cash") >= nextUpgradePrice then
+        return true
+    else
+        return false
+    end
+end
+
 return module
