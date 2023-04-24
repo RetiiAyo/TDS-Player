@@ -103,7 +103,7 @@ function module:Map(Map, Bool, Mode)
   local Elevator = core:GetElevator(Map, Mode)
   repeat
       Elevator = core:GetElevator(Map, Mode)
-      Attempt += 1
+      Attempt = Attempt + 1
       wait(1)
   until Elevator and typeof(Elevator) == "table" or Attempt >= 5
  
