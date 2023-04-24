@@ -9,16 +9,29 @@ local RS = game:GetService("ReplicatedStorage")
 local RSRE = RS:WaitForChild("RemoteEvent")
 local RSRF = RS:WaitForChild("RemoteFunction")
 
+function core:GetElevators(Map, Mode)
+  for a, c in pairs(game:GetService("Workspace").Elevators:GetChildren()) do
+    local b = require(c.Settings)
+    local d = c.State
+    local e = d.Players.Value
+    local f = d.Map.Title.Value
+		
+    if tostring(f) == Map and e == 0 and b.Type == Mode then
+      return { c, e, f }
+    end
+  end
+end
+
 function module:Setup()
   local w = library:CreateWindow("Player")
   w:Section("Current action :")
   w:Section("No action..")
   local labelx
   for i,v in pairs(game.CoreGui:GetDescendants()) do
-	  if v:IsA("TextLabel") and v.Text == "No action.." then
-		    labelx = v
-		    labelc = v
-	   end
+	if v:IsA("TextLabel") and v.Text == "No action.." then
+	  labelx = v
+	  labelc = v
+	end
   end
   
   return labelx
@@ -63,8 +76,12 @@ function module:Loadout(T1, T2, T3, T4, T5)
       }))
       labelx.Text = "Equipped "..tostring(index[i])
     end
-    
   end
+end
+
+function module:Map(Map, Bool, Mode)
+  local JoinedElevator = false
+  
 end
 
 return module
