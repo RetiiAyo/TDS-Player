@@ -1,7 +1,3 @@
-local suc
-local err
-
-suc, err = pcall(function()
 local module = {}
 print("loading")
 local functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/functions.lua"))()
@@ -85,7 +81,6 @@ function module:Map(Map, Bool, Mode)
 		if b > 0 then
 		    labelc.Text = "Someone joined.."
 		    L:InvokeServer("Elevators", "Leave")
-		    sp:Disconnect()
 		end
 	    end)
 	end)
@@ -123,10 +118,3 @@ end
 
 print("returning")
 return module
-end)
-
-if suc then
-   return suc
-else
-   return
-end
