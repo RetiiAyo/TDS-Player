@@ -97,7 +97,8 @@ function module:Loadout(T1, T2, T3, T4, T5)
 end
 
 function module:Map(Map, Bool, Mode)
-    local elev = false
+    local suc, err = pcall(function()
+	local elev = false
     local function getElevators()
      local L = game.ReplicatedStorage.RemoteFunction
   for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
@@ -135,7 +136,13 @@ if elev == false then
        task.wait(0.5)
     until elev == true
 end
+    end)
 
+   if suc then
+     print("success")
+   else
+    print(err)
+   end
 end
 
 return module
