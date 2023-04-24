@@ -118,7 +118,7 @@ function module:Map(Map, Bool, Mode)
 		module:Map(Map, Bool, Mode)
 	      end
 	   end)
-	end)
+	end
     end
   end
  end
