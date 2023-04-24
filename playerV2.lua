@@ -26,7 +26,7 @@ function core:ForceChangeMaps()
   return true
 end
 
-function core:GetElevators(Map, Mode)
+function core:GetElevator(Map, Mode)
   for a, c in pairs(game:GetService("Workspace").Elevators:GetChildren()) do
     local b = require(c.Settings)
     local d = c.State
@@ -98,7 +98,41 @@ end
 
 function module:Map(Map, Bool, Mode)
   local JoinedElevator = false
+  local Attempt = 0
+  labelc.Text = "Waiting for map.."
+  local Elevator = core:GetElevator(Map, Mode)
+  repeat
+      Elevator = core:GetElevator(Map, Mode)
+      Attempt += 1
+      wait(1)
+  until Elevator and typeof(Elevator) == "table" or Attempt >= 5
+ 
+  if Elevator then
+     local L = game.ReplicatedStorage.RemoteFunction
+     L:InvokeServer("Elevators", "Enter", Elevator["c"])
+     local sp = spawn(function()
+       local oldPlrs = 0
+       while wait() do
+	 if oldPlrs ~= tonumber(Elevator["e"]) then
+	   L:InvokeServer("Elevators", "Leave")
+	   labelc.Text = "Someone joined.."
+	   module:Map(Map, Bool, Mode)
+	   sp:Disconnect()
+	   break
+	 end
+       end
+     end)
+  end
   
+  if not typeof(Elevator) == "table" then
+    labelc.Text = "Force changing maps.."
+    local status = core:ForceChangeMaps()
+    repeat
+      wait()
+    until status == true
+    module:Map(Map, Bool, Mode)
+    break
+  end
 end
 
 return module
