@@ -196,6 +196,5 @@ end
    wait(1)
    module:Map(Map, Bool, Mode)
    end
-end
 
 return module
