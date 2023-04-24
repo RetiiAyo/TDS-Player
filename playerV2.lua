@@ -131,7 +131,6 @@ function module:Map(Map, Bool, Mode)
       wait()
     until status == true
     module:Map(Map, Bool, Mode)
-    break
   end
 end
 
