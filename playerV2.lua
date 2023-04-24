@@ -123,32 +123,14 @@ end
 
 if elev == false then
     repeat
-        labelc.Text = "Force changing maps.."
-        local L = game.ReplicatedStorage.RemoteFunction
-        for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
-          local a = require(c.Settings).Type
-          local b = c.State.Players
-          if a == "Survival" and b.Value <= 0 then
-            L:InvokeServer("Elevators", "Enter", c)
-            wait(1)
-            L:InvokeServer("Elevators", "Leave")
-	
-	    local elevator = core:GetElevator(Map, Mode)
-            if elevator then
-              L:InvokeServer("Elevators", "Enter", elevator["c"])
-	      labelc.Text = "Joined.."
-              break
-            end
-          end
-        end
-       wait(0.6)
-       L:InvokeServer("Elevators", "Leave")
-       wait(1)
-       local elevator = core:GetElevator(Map, Mode)
-       if elevator then
+       local status = core:ForceChangeMaps()
+       if status then
+	 local elevator = core:GetElevator(Map, Mode)
+         if elevator then
            L:InvokeServer("Elevators", "Enter", elevator["c"])
 	   labelc.Text = "Joined.."
            break
+         end
        end
     until elev == true
 end
