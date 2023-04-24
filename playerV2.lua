@@ -97,6 +97,57 @@ function module:Loadout(T1, T2, T3, T4, T5)
 end
 
 function module:Map(Map, Bool, Mode)
+    local elev = false
+    local function getElevators()
+     local L = game.ReplicatedStorage.RemoteFunction
+  for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
+    local a = require(c.Settings)
+    local b = c.State.Players.Value
+    local c2 = c.State.Map.Title.Value
+    
+    if c2 == Map and b == 0 and a.Type == Mode then
+	L:InvokeServer("Elevators", "Enter", c)
+	elev = true
+	labelc.Text = "Joined.."
+	c.State.Players:GetPropertyChangedSignal("Value"):Connect(function(Value)
+	  if Value > 0 then
+		labelc.Text = "Someone joined.."
+		L:InvokeServer("Elevators", "Leave")
+		elev = false
+		module:Map(Map, Bool, Mode)
+	      end
+	   end)
+	end
+    end
+end
+
+if elev == false then
+    repeat
+        labelc.Text = "Force changing maps.."
+        local L = game.ReplicatedStorage.RemoteFunction
+        for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
+          local a = require(c.Settings).Type
+          local b = c.State.Players
+          if a == "Survival" and b.Value <= 0 then
+            L:InvokeServer("Elevators", "Enter", c)
+            wait(1)
+            L:InvokeServer("Elevators", "Leave")
+          end
+        end
+       wait(0.6)
+       L:InvokeServer("Elevators", "Leave")
+       wait(1)
+       local elevator = core:GetElevator(Map, Mode)
+       if elevator then
+           L:InvokeServer("Elevators", "Enter", elevator["c"])
+           break
+       end
+    until elev == true
+end
+
+end
+
+function module:Map(Map, Bool, Mode)
   local elev = false
 
   local function getElevators()
@@ -120,8 +171,7 @@ function module:Map(Map, Bool, Mode)
 	   end)
 	end
     end
-  end
- end
+end
 	
   if elev == false then
       repeat
@@ -138,51 +188,14 @@ function module:Map(Map, Bool, Mode)
       wait(7)
       getElevators()
       wait(1)
+      end
       until elev == true
    end
    wait(0.6)
    L:InvokeServer("Elevators", "Leave")
    wait(1)
    module:Map(Map, Bool, Mode)
-  end
-end
-
-function module:Map2(Map, Bool, Mode)
-  local JoinedElevator = false
-  local Attempt = 0
-  labelc.Text = "Waiting for map.."
-  local Elevator = core:GetElevator(Map, Mode)
-  repeat
-      Elevator = core:GetElevator(Map, Mode)
-      Attempt = Attempt + 1
-      wait(1)
-  until Elevator and typeof(Elevator) == "table" or Attempt >= 5
- 
-  if Elevator then
-     local L = game.ReplicatedStorage.RemoteFunction
-     L:InvokeServer("Elevators", "Enter", Elevator["c"])
-     local sp = spawn(function()
-       local oldPlrs = 0
-       while wait() do
-	 if oldPlrs ~= tonumber(Elevator["e"]) then
-	   L:InvokeServer("Elevators", "Leave")
-	   labelc.Text = "Someone joined.."
-	   module:Map(Map, Bool, Mode)
-	   sp:Disconnect()
-	   break
-	 end
-       end
-     end)
-  end
-  
-  if not typeof(Elevator) == "table" then
-    labelc.Text = "Force changing maps.."
-    local status = core:ForceChangeMaps()
-    repeat
-      wait()
-    until status == true
-    module:Map(Map, Bool, Mode)
-  end
+   end
 end
 
 return module
