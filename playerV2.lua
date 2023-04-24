@@ -117,7 +117,7 @@ function module:Map(Map, Bool, Mode)
 	   L:InvokeServer("Elevators", "Leave")
 	   labelc.Text = "Someone joined.."
 	   module:Map(Map, Bool, Mode)
-	   sp:Disconnect()
+	   --sp:Disconnect()
 	   break
 	 end
        end
