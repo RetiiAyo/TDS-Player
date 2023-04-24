@@ -125,4 +125,8 @@ print("returning")
 return module
 end)
 
-return suc
+if suc then
+   return suc
+else
+   return
+end
