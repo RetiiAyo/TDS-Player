@@ -132,6 +132,13 @@ if elev == false then
             L:InvokeServer("Elevators", "Enter", c)
             wait(1)
             L:InvokeServer("Elevators", "Leave")
+	
+	    local elevator = core:GetElevator(Map, Mode)
+            if elevator then
+              L:InvokeServer("Elevators", "Enter", elevator["c"])
+	      labelc.Text = "Joined.."
+              break
+            end
           end
         end
        wait(0.6)
@@ -140,6 +147,7 @@ if elev == false then
        local elevator = core:GetElevator(Map, Mode)
        if elevator then
            L:InvokeServer("Elevators", "Enter", elevator["c"])
+	   labelc.Text = "Joined.."
            break
        end
     until elev == true
