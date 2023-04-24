@@ -97,6 +97,54 @@ function module:Loadout(T1, T2, T3, T4, T5)
 end
 
 function module:Map(Map, Bool, Mode)
+  local elev = false
+
+  local function getElevators()
+     local L = game.ReplicatedStorage.RemoteFunction
+  for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
+    local a = require(c.Settings)
+    local b = c.State.Players.Value
+    local c2 = c.State.Map.Title.Value
+    
+    if c2 == Map and b == 0 and a.Type == Mode then
+	L:InvokeServer("Elevators", "Enter", c)
+	elev = true
+	labelc.Text = "Joined.."
+	local sp = spawn(function()
+	    c.State.Players:GetPropertyChangedSignal("Value"):Connect(function(Value)
+		if Value > 0 then
+		    labelc.Text = "Someone joined.."
+		    L:InvokeServer("Elevators", "Leave")
+		    elev = false
+		    module:Map(Map, Bool, Mode)
+		end
+	    end)
+	end)
+    end
+  end
+ end
+	
+  if elev == false then
+      repeat
+	labelc.Text = "Force changing maps.."
+        local L = game.ReplicatedStorage.RemoteFunction
+      for a, c in pairs(game:GetService('Workspace').Elevators:GetChildren()) do
+        local a = require(c.Settings).Type
+        local b = c.State.Players
+        if a == Mode and b.Value <= 0 then
+          L:InvokeServer("Elevators", "Enter", c)
+          wait(1)
+          L:InvokeServer("Elevators", "Leave")
+      end
+      wait(5)
+      getElevators()
+      wait(1)
+      end
+      until elev == true
+   end
+end
+
+function module:Map2(Map, Bool, Mode)
     local suc, err = pcall(function()
 	local elev = false
     local function getElevators()
