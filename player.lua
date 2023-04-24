@@ -1,14 +1,10 @@
+local suc
+local err
+
+suc, err = pcall(function()
 local module = {}
 print("loading")
-local functions = nil
-local success, err = pcall(function()
-    functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/functions.lua"))()
-end)
-if success then
-print("ok")
-else
-print(err)
-end
+local functions = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/storage/functions.lua"))()
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/RBXScripts-Drive/main/girgmnijnrw09LIB.lua"))()
 local labelc = nil
 
@@ -127,3 +123,6 @@ end
 
 print("returning")
 return module
+end)
+
+return suc
