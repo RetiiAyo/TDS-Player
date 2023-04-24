@@ -129,9 +129,10 @@ if elev == false then
          if elevator then
            L:InvokeServer("Elevators", "Enter", elevator["c"])
 	   labelc.Text = "Joined.."
-           break
+           elev = true
          end
        end
+       task.wait(0.5)
     until elev == true
 end
 
