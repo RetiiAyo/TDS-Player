@@ -111,17 +111,20 @@ local function getElevators()
 	elev = true
 	labelc.Text = "Joined.."
 	local sp = spawn(function()
-	    repeat
-		c.State.Players:GetPropertyChangedSignal("Value"):Connect(function(Value)
-		if Value ~= 1 then
-		    labelc.Text = "Someone joined.."
-		    L:InvokeServer("Elevators", "Leave")
-		    elev = false
-		    module:Map(Map, Bool, Mode)
-	         end
-	      end)
-	      wait(1)
-	    until elev == false
+	c.State.Players:GetPropertyChangedSignal("Value"):Connect(function(Value)
+	    if Value ~= 1 then
+		labelc.Text = "Someone joined.."
+		L:InvokeServer("Elevators", "Leave")
+		elev = false
+		game:GetService("Players").LocalPlayer:Kick("[TDS-Player]: Someone joined, rejoining..")
+		game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
+		game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
+                if State == Enum.TeleportState.Started then
+                  syn.queue_on_teleport(tostring(readfile("TDS-Player/Saved/"..getgenv().File..".txt")))
+                end
+              end)
+	    end
+	 end)
       end)
     end
   end
