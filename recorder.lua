@@ -229,4 +229,35 @@ local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
   end
 end
 
-
+old = hookmetamethod(game, "__namecall", function(self, ...)
+    local args = {...}
+    if getnamecallmethod() == "InvokeServer" and self.name == "RemoteFunction" and not table.find(args, "Rec") then
+        local thread = coroutine.running()
+        coroutine.wrap(function(args, stateRep)
+            local Msi = getgenv().WaveMillisecond
+            local Wave = tonumber(stateRep:GetAttribute("Wave"))
+            local function Convert(Seconds) return math.floor(Seconds / 60), Seconds % 60; end
+            local TM, TS = Convert(game.ReplicatedStorage.State.Timer.Time.Value)
+            local HalftTime = false
+            if Wave ~= 0 and game.Workspace:FindFirstChild("PathArrow") then
+            HalftTime = true
+            end
+            table.insert(args, "Rec")
+            if args[2] == "Place" then
+                conn = game.Workspace.Towers.ChildAdded:Connect(function(v)
+                    repeat task.wait() until v:FindFirstChild("Replicator")
+                    if v.Owner.Value == game.Players.LocalPlayer.UserId and v.Replicator:GetAttribute("Type") == args[3] then
+                        local selectModule = require(game:GetService("ReplicatedStorage").Client.Modules.Game.Interface.Elements.Upgrade.upgradeHandler) 
+                        selectModule.selectTroop(selectModule, v)
+                        conn:Disconnect()
+                    end
+                end)
+            end
+            local wasDid = self.InvokeServer(self, unpack(args))
+            passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
+            coroutine.resume(thread,wasDid)
+        end)(args, stateRep)
+        return coroutine.yield()
+    end
+    return old(self, ...)
+end)
