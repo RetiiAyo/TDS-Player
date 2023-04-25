@@ -117,12 +117,12 @@ local function getElevators()
 		L:InvokeServer("Elevators", "Leave")
 		elev = false
 		game:GetService("Players").LocalPlayer:Kick("[TDS-Player]: Someone joined, rejoining..")
-		game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 		game:GetService("Players").LocalPlayer.OnTeleport:Connect(function(State)
                 if State == Enum.TeleportState.Started then
-                  syn.queue_on_teleport(tostring(readfile("TDS-Player/Saved/"..getgenv().File..".txt")))
-                end
-              end)
+                    syn.queue_on_teleport(tostring(readfile("TDS-Player/Saved/"..getgenv().File..".txt")))
+                  end
+                end)
+		game:GetService("TeleportService"):Teleport(3260590327, game:GetService("Players").LocalPlayer)
 	    end
 	 end)
       end)
