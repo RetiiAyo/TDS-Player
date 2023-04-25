@@ -111,14 +111,17 @@ local function getElevators()
 	elev = true
 	labelc.Text = "Joined.."
 	local sp = spawn(function()
-	    c.State.Players:GetPropertyChangedSignal("Value"):Connect(function(Value)
+	    repeat
+		c.State.Players:GetPropertyChangedSignal("Value"):Connect(function(Value)
 		if Value ~= 1 then
 		    labelc.Text = "Someone joined.."
 		    L:InvokeServer("Elevators", "Leave")
 		    elev = false
 		    module:Map(Map, Bool, Mode)
-	   end
-	 end)
+	         end
+	      end)
+	      wait(1)
+	    until elev == false
       end)
     end
   end
