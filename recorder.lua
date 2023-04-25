@@ -163,6 +163,7 @@ spawn(function()
 		getgenv().TimePassed = "Time Passed : "..TimeConverter(minutes)..":"..TimeConverter(seconds)
 	end
 end)
+warn("[TDS-PLAYER]: Recording..")
 w:Section("")
 w:Button("Sell All Farms", function()
 	for i,v in pairs(game.Workspace.Towers:GetChildren()) do
@@ -209,3 +210,23 @@ if functions:CheckWebhook() == true then
 		["content"] = tostring(game.Players.LocalPlayer.Name).." has loaded TDS-Player"
 	})
 end
+
+local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
+  if args[1] == "Troops" then
+    
+  end
+  if args[1] == "Waves" and args[2] == "Skip" then
+    getgenv().LoaderData = getgenv().LoaderData..getgenv().PlayerVar..":Skip("..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n"
+    labelx.Text = "Skipped wave"
+  end
+  if args[1] == "Difficulty" and args[2] == "Vote" then
+    local Difficulty = args[3]
+    local DiffTable = {["Easy"] = "Normal", ["Normal"] = "Molten", ["Insane"] = "Fallen"}
+    if game:GetService("ReplicatedStorage").State.Mode.Value == "Survival" then
+      getgenv().LoaderData = getgenv().LoaderData..getgenv().PlayerVar..":Mode('"..Difficulty.."') -- "..DiffTable[Difficulty].." is called "..Difficulty.."\n"
+      labelx.Text = "Voted for difficulty"
+    end
+  end
+end
+
+
