@@ -112,7 +112,7 @@ local function getElevators()
 	labelc.Text = "Joined.."
 	local sp = spawn(function()
 	    c.State.Players:GetPropertyChangedSignal("Value"):Connect(function(Value)
-		if Value > 0 then
+		if Value ~= 0 then
 		    labelc.Text = "Someone joined.."
 		    L:InvokeServer("Elevators", "Leave")
 		    elev = false
