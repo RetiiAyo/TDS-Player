@@ -1,22 +1,18 @@
 # TDS-Player
 open source Roblox Tower Defense Simulator script (BETA)
 
-# Recorder
+# Recorder V2
 
 ```lua
-getgenv().Settings = {
-    Logs = "WEBHOOK HERE (NOT NEEDED)",
-    Multiplayer = {
-        Enabled = false, -- IN WORKS, DON'T ENABLE
-        Players = {}
-    },
-}
-getgenv().FileName = "Recording"
+getgenv().StratName = "Recorder"
+getgenv().APIVar = "TDS"
+getgenv().LoggerWindow = false
+getgenv().Webhook = "WEBHOOK (OPTIONAL)"
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/recorder.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RetiiAyo/TDS-Player/main/recorderV2.lua"))()
 ```
 
-# Player
+# Player V2
 
 ```lua
 -- Recorder generates a script that you can execute. Player will do all the actions you did for you.
